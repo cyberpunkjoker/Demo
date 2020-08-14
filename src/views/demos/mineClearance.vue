@@ -3,11 +3,11 @@
     <!-- 游戏结束提示文本 -->
     <div v-if="isOver">
       <p>比赛结束</p>
-      <button>从新开始</button>
+      <button @click="clear">从新开始</button>
     </div>
     <div v-if="win">
       <p>you are winner!!!!</p>
-      <button>再来一盘</button>
+      <button @click="clear">再来一盘</button>
     </div>
     <!-- 按钮模块 -->
     <!-- 游戏区域 -->
@@ -34,8 +34,8 @@ export default {
       minefieldList: [],
       form: {
         row: 10, // 列
-        col: 5, // 行
-        num: 10 // 炸弹数目
+        col: 10, // 行
+        num: 20 // 炸弹数目
       },
       isOver: false, // 判断游戏是否失败
       sum: 0, // 选择的非炸弹元素个数
@@ -43,10 +43,7 @@ export default {
     }
   },
   created() {
-    this.selectedLevel(10, 5)
-    console.log(this.minefieldList)
-    this.boom(10)
-    this.mineNumOfAround()
+    this.selectedLevel()
   },
   methods: {
     //  随机选中雷元素
@@ -66,6 +63,8 @@ export default {
       this.minefieldList = new Array(row)
         .fill('')
         .map(i => new Array(col).fill('').map(c => (c = { selected: false, around: 0, hasmine: false })))
+        this.boom()
+        this.mineNumOfAround()
     },
     // 判断安全区域周围的地雷个数
     mineNumOfAround() {
@@ -76,35 +75,60 @@ export default {
         })
       })
     },
-    // 周围一圈的雷添加
+    // 计算周围一圈的雷数目
     addAround(x,y,i) {
       let {row, col} = this.form
       // 右
-      y + 1 < col-1 && this.minefieldList[x][y + 1].hasmine && (i.around += 1)
+      y + 1 <= col-1 && this.minefieldList[x][y + 1].hasmine && (i.around += 1)
       // 左
-      y - 1 > 0 && this.minefieldList[x][y - 1].hasmine && (i.around += 1)
+      y - 1 >= 0 && this.minefieldList[x][y - 1].hasmine && (i.around += 1)
       // 上
-      x + 1 < row-1 && this.minefieldList[x + 1][y].hasmine && (i.around += 1)
+      x + 1 <= row-1 && this.minefieldList[x + 1][y].hasmine && (i.around += 1)
       // 下
-      x - 1 > 0 && this.minefieldList[x - 1][y].hasmine && (i.around += 1)
+      x - 1 >= 0 && this.minefieldList[x - 1][y].hasmine && (i.around += 1)
       // 左上
-      x + 1 < row-1 && y - 1 > 0 && this.minefieldList[x + 1][y - 1].hasmine && (i.around += 1)
+      x + 1 <= row-1 && y - 1 >= 0 && this.minefieldList[x + 1][y - 1].hasmine && (i.around += 1)
       // 右上
-      x + 1 < row-1 && y + 1 < col-1 && this.minefieldList[x + 1][y + 1].hasmine && (i.around += 1)
+      x + 1 <= row-1 && y + 1 <= col-1 && this.minefieldList[x + 1][y + 1].hasmine && (i.around += 1)
       // 左下
-      x - 1 > 0 && y - 1 > 0 && this.minefieldList[x - 1][y - 1].hasmine && (i.around += 1)
+      x - 1 >= 0 && y - 1 >= 0 && this.minefieldList[x - 1][y - 1].hasmine && (i.around += 1)
       // 右下
-      x - 1 > 0 && y + 1 < col-1 && this.minefieldList[x - 1][y + 1].hasmine && (i.around += 1)
+      x - 1 >= 0 && y + 1 <= col-1 && this.minefieldList[x - 1][y + 1].hasmine && (i.around += 1)
+    },
+    // 判断周围一圈的元素是否展开
+    showContent(x,y) {
+      let {col, row} = this.form
+      const mine = this.minefieldList[x][y];
+      mine.selected = true
+      const offSets = [-1,0,1]
+      offSets.forEach(xOffSet=>{
+        offSets.forEach(yOffSet=>{
+          if (xOffSet===0 && yOffSet===0) return;
+          const targetX = x + xOffSet
+          const targetY = y + yOffSet
+          if (targetX < 0 || targetX >= row) return 
+          if (targetY < 0 || targetY >= col) return
+          const targetMine = this.minefieldList[targetX][targetY]
+          if (targetMine.selected) return
+          if (targetMine.around !==0) {
+            targetMine.selected = true
+            return false
+          } else {
+            return this.showContent(targetX, targetY)
+          }
+        })
+      })
     },
     // 选中雷区元素
     selectedMine(x, y) {
       let { row, col, num } = this.form
-      if (!this.isOver) {
-        this.minefieldList[x][y].selected = true
+      if (!this.isOver && !this.win && !this.minefieldList[x][y].selected) {
         if (this.minefieldList[x][y].hasmine) {
+          this.minefieldList[x][y].selected = true
           this.isOver = true
           return
         }
+        this.minefieldList[x][y].around === 0?this.showContent(x,y):this.minefieldList[x][y].selected = true
         this.minefieldList.forEach(el => {
           el.forEach(i => i.selected && !i.hasmine && (this.sum += 1))
         })
@@ -112,6 +136,12 @@ export default {
         // 清空每次的循环的累计次数
         this.sum = 0
       }
+    },
+    // 重新开始
+    clear() {
+      this.isOver = false
+      this.win = false
+      this.selectedLevel()
     }
   }
 }
