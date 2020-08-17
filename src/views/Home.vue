@@ -5,18 +5,22 @@
     <ticTacToe></ticTacToe>
     <!-- 扫雷 小demo -->
     <mineClearance></mineClearance>
+    <!-- 2048 小demo -->
+    <game2048></game2048>
   </div>
 </template>
 
 <script>
 import ticTacToe from './demos/TicTacToe'
 import mineClearance from './demos/mineClearance'
+import game2048 from './demos/game2048'
 
 export default {
   name: 'Home',
   components: {
     ticTacToe,
-    mineClearance
+    mineClearance,
+    game2048
   }
 }
 </script>
