@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import Video from '../views/video/index.vue'
+import Message from '../views/message/index.vue'
 
 Vue.use(VueRouter)
 
@@ -10,6 +12,16 @@ const routes = [
     name: 'Home',
     component: Home
   },
+  {
+    path: '/video',
+    name: 'Video',
+    component: Video
+  },
+  {
+    path: '/message',
+    name: 'Message',
+    component: Message
+  }
 ]
 
 const router = new VueRouter({

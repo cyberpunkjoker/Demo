@@ -6,7 +6,8 @@
     <!-- 扫雷 小demo -->
     <mineClearance></mineClearance>
     <!-- 2048 小demo -->
-    <game2048></game2048>
+    <!-- 先暂时搁浅，看点算法的东西的 -->
+    <!-- <game2048></game2048> -->
   </div>
 </template>
 
