@@ -9,7 +9,11 @@
 </template>
 
 <script>
+import Index from './index'
+
 export default {
+    // 测试 extends
+    extends: Index,
     inject: {
         message: {
             type: String,
@@ -31,7 +35,8 @@ export default {
     methods: {
         send() {
             let message = '孙子组件的值在这里哦'
-            this.father.grandsonMessage = message
+            this.grandsonMessage = message
+            // this.father.grandsonMessage = message
             // this.$emit('sendMessage', message)
         },
         toRefresh() {
