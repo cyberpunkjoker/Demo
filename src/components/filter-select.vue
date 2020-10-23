@@ -6,11 +6,14 @@
             :key="y"
         >
             <a-input
-                v-model="form[outer]"
+                v-model="form[outer.key]"
+                @blur="onBlur"
+                :disabled="!hasSelected[y]"
+                :placeholder="outer.tips"
             >
                 <a-select 
                     slot="addonBefore"
-                    placeholder="选择"
+                    placeholder="请选择"
                     style="width: 90px"
                     @change="toSelectedItem($event, y)"
                 >
@@ -35,15 +38,15 @@ export default {
         filterList: {
             type: Array,
             default: () => []
-        }
+        },
     },
     data() {
         return {
             // 记录每个 select 选中的元素
             hasSelected: {},
-            // input 个数
+            // input 个数 
             selectList: [],
-            // 展示数组
+            // 计算出来的 展示数组
             displayList: this.filterList,
             // 上传表单
             form: {}
@@ -53,12 +56,12 @@ export default {
         this.initSelected()
     },
     methods: {
-        // 初始化选中项
+        // 初始化
         initSelected() {
             let length = this.filterList.length
             for (let i = 0; i < length; i++) {
                 this.hasSelected[i] = ''
-                this.form[this.filterList[i].key] = 'sdsds'
+                this.form[this.filterList[i].key] = undefined
             }
             this.selectList.push(1)
         }, 
@@ -69,15 +72,19 @@ export default {
         toSelectedItem(value, y) {
             this.hasSelected[y] = value
             this.filterList.forEach(i => {
-                i.label === value && (this.selectList[y] = i.key)
+                if (i.label === value) {
+                    this.selectList[y] = { key: i.key, tips: i.tips}
+                }
             })
             let arr = Object.values(this.hasSelected)
             this.displayList = this.filterList.filter(item => {
                 let isTure = arr.some(inner=>inner === item.label)
                 return !isTure
             })
-
         },
+        onBlur() {
+            this.$emit('postSelectedInfo', this.form)
+        }
     }
 }
 </script>

@@ -6,7 +6,16 @@
             :key='keys'
             :customRow="customRow"
         >
+            <div slot-scope="record" slot="expandedRowRender" v-if="record.id===123" style="display:none">
+                <a-table
+                    :columns="columns"
+                    :data-source="undefined"
+                    :pagination="false"
+                >
+                </a-table>
+            </div>       
         </a-table>
+        
         <draggable>
             <transition-group>
                 <div 
@@ -17,6 +26,10 @@
                 </div>
             </transition-group>
         </draggable>
+
+        <div id="div" style="width:200px;height:200px;border:3px solid cyan;"></div>
+</body>
+
     </div>
 </template>
 
@@ -48,12 +61,38 @@ export default {
         }
     },
     methods: {
+        expandedRowRender(record,index, indent, expanded) {
+            console.log(record,index, indent, expanded)
+            const table = (
+                <a-table
+                    columns={this.columns}
+                    data-source={this.data}
+                    pagination={false}
+                >
+                </a-table>
+            )
+            let isRender = record.id === 123?table:null
+            return isRender
+        },
+        changeStyle(doom) {
+            doom.style.display = 'none'
+        },
         // 拖动排序
-        customRow(record, index) {
+        customRow(record,index) {
             console.log(record, index);
+            let isRender = record.id === 123
+            let doom = document.querySelectorAll('.ant-table-row-expand-icon-cell')[index]
+            this.changeStyle(doom)
+
+            // var div = document.getElementById('div');
+            // var width = div.style.width;
+            // console.log(div)
+            
+            // doom.className = ''
             return {
                 style: {
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    // [isRender?'display':'']: 'none'
                 },
                 on: {
                     // 鼠标移入
@@ -96,6 +135,8 @@ export default {
                         this.$set(this.data, obj.old, this.targetObj)
                     }
                 }
+
+
             }
         },
     }
