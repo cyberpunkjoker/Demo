@@ -5,7 +5,9 @@
             v-for="(outer, y) in selectList"
             :key="y"
         >
-            <a-input>
+            <a-input
+                v-model="form[outer]"
+            >
                 <a-select 
                     slot="addonBefore"
                     placeholder="选择"
@@ -42,7 +44,9 @@ export default {
             // input 个数
             selectList: [],
             // 展示数组
-            displayList: this.filterList
+            displayList: this.filterList,
+            // 上传表单
+            form: {}
         }
     },
     mounted() {
@@ -54,6 +58,7 @@ export default {
             let length = this.filterList.length
             for (let i = 0; i < length; i++) {
                 this.hasSelected[i] = ''
+                this.form[this.filterList[i].key] = 'sdsds'
             }
             this.selectList.push(1)
         }, 
@@ -63,6 +68,9 @@ export default {
         },
         toSelectedItem(value, y) {
             this.hasSelected[y] = value
+            this.filterList.forEach(i => {
+                i.label === value && (this.selectList[y] = i.key)
+            })
             let arr = Object.values(this.hasSelected)
             this.displayList = this.filterList.filter(item => {
                 let isTure = arr.some(inner=>inner === item.label)
