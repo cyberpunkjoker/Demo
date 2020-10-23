@@ -5,6 +5,7 @@ import Video from '../views/video/index.vue'
 import Message from '../views/message/index.vue'
 import Antd from '../views/antd.vue'
 import Drag from '../views/draggable.vue'
+import Table from '../views/table-test.vue'
 
 Vue.use(VueRouter)
 
@@ -33,6 +34,11 @@ const routes = [
     path: '/drag',
     name: 'Drag',
     component: Drag
+  },
+  {
+    path: '/table',
+    name: 'Table',
+    component: Table
   }
 ]
 
