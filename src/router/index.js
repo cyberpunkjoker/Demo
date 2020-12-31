@@ -6,6 +6,9 @@ import Message from '../views/message/index.vue'
 import Antd from '../views/antd.vue'
 import Drag from '../views/draggable.vue'
 import Table from '../views/table-test.vue'
+import Echarts from '../views/echarts/index.vue'
+
+import Idea from '../views/idea/test1.vue'
 
 Vue.use(VueRouter)
 
@@ -39,6 +42,16 @@ const routes = [
     path: '/table',
     name: 'Table',
     component: Table
+  },
+  {
+    path: '/idea',
+    name: 'idea',
+    component: Idea
+  },
+  {
+    path: '/echarts',
+    name: 'echarts',
+    component: Echarts
   }
 ]
 

@@ -28,8 +28,6 @@
         </draggable>
 
         <div id="div" style="width:200px;height:200px;border:3px solid cyan;"></div>
-</body>
-
     </div>
 </template>
 
