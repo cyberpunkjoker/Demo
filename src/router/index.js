@@ -9,6 +9,9 @@ import Table from '../views/table-test.vue'
 import Echarts from '../views/echarts/index.vue'
 
 import Idea from '../views/idea/test1.vue'
+import antDemo from '../views/antd-demo/index.vue'
+
+import algorithms from '../views/algorithms/index.vue'
 
 Vue.use(VueRouter)
 
@@ -52,6 +55,16 @@ const routes = [
     path: '/echarts',
     name: 'echarts',
     component: Echarts
+  },
+  {
+    path: '/antdemo',
+    name: 'antdemo',
+    component: antDemo
+  },
+  {
+    path: '/algorithms',
+    name: 'algorithms',
+    component: algorithms
   }
 ]
 

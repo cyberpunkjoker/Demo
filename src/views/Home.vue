@@ -2,12 +2,14 @@
   <div class="home">
     <div class="auth-name">cyberpunkjill</div>
     <!-- 井字棋 小demo -->
-    <ticTacToe></ticTacToe>
+    <!-- <ticTacToe></ticTacToe> -->
     <!-- 扫雷 小demo -->
-    <mineClearance></mineClearance>
+    <!-- <mineClearance></mineClearance> -->
     <!-- 2048 小demo -->
     <!-- 先暂时搁浅，看点算法的东西的 -->
     <!-- <game2048></game2048> -->
+    <!-- 俄罗斯方框 -->
+    <Tetris></Tetris>
   </div>
 </template>
 
@@ -15,13 +17,15 @@
 import ticTacToe from './demos/TicTacToe'
 import mineClearance from './demos/mineClearance'
 import game2048 from './demos/game2048'
+import Tetris from './demos/Tetris'
 
 export default {
   name: 'Home',
   components: {
     ticTacToe,
     mineClearance,
-    game2048
+    game2048,
+    Tetris
   }
 }
 </script>

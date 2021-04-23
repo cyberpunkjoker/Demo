@@ -6,6 +6,8 @@
 </template>
 
 <script>
+import echarts from "echarts";
+
 export default {
     data() {
         return {
@@ -27,7 +29,10 @@ export default {
                     textStyle: {
                         textBorderColor: 'red'
                     },
-                    subtext: '副标题'
+                    subtext: '副标题',
+                },
+                legend: {
+                    type: 'scroll',
                 },
                 xAxis: {
                     type: 'category',
@@ -45,6 +50,9 @@ export default {
                     }
                 }]
             })
+        },
+        echartsInitMap() {
+
         }
     }
 }

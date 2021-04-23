@@ -9,7 +9,7 @@ import 'ant-design-vue/dist/antd.css';
 let echarts = require('echarts')
 // 全局挂载组件
 import './components/global'
-
+import './common/directive-collect'
 // 全局挂载 echarts
 Vue.prototype.$echarts = echarts
 Vue.config.productionTip = false
